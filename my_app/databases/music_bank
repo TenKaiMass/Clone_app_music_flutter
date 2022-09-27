@@ -1,0 +1,23 @@
+CREATE TABLE 'music_bank' ( 'id' INTEGER primary key AUTOINCREMENT,'titre' char(255) default NULL,'artiste' char(255) default NULL,'chemin_music' char(255));
+
+INSERT INTO music_bank (artiste,titre,chemin_music)
+VALUES ( 'Oxlade','KULOSAA', './music/Oxlade-KULOSAA.mp3' );
+INSERT INTO music_bank (titre,artiste,chemin_music)
+VALUES ( 'The Weekend','I was never there', './music/The_Weeknd-I_Was_Never_There.mp3');
+
+INSERT INTO music_bank (artiste,titre,chemin_music)
+VALUES ( 'Earth, Wind & Fire','I was never there', './music/Earth_Wind_Fire-Love_holiday.mp3');
+
+INSERT INTO music_bank (artiste,titre,chemin_music)
+VALUES ( 'Damso ft. Hamza','BXL ZOO', './music/Damso_BXL_ZOO_Hamza.mp3');
+
+-- INSERT INTO music_bank (artiste,titre,chemin_music)
+-- VALUES ( 'Earth, Wind & Fire','I was never there', './music/Earth_Wind_Fire-Love_holiday.mp3');
+-- INSERT INTO music_bank (artiste,titre,chemin_music)
+-- VALUES ( 'Earth, Wind & Fire','I was never there', './music/Earth_Wind_Fire-Love_holiday.mp3');
+-- INSERT INTO music_bank (artiste,titre,chemin_music)
+-- VALUES ( 'Earth, Wind & Fire','I was never there', './music/Earth_Wind_Fire-Love_holiday.mp3');
+-- INSERT INTO music_bank (artiste,titre,chemin_music)
+-- VALUES ( 'Earth, Wind & Fire','I was never there', './music/Earth_Wind_Fire-Love_holiday.mp3');
+-- INSERT INTO music_bank (artiste,titre,chemin_music)
+-- VALUES ( 'Earth, Wind & Fire','I was never there', './music/Earth_Wind_Fire-Love_holiday.mp3');
