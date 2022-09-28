@@ -11,13 +11,13 @@ VALUES ( 'Earth, Wind & Fire','I was never there', './music/Earth_Wind_Fire-Love
 INSERT INTO music_bank (artiste,titre,chemin_music)
 VALUES ( 'Damso ft. Hamza','BXL ZOO', './music/Damso_BXL_ZOO_Hamza.mp3');
 
--- INSERT INTO music_bank (artiste,titre,chemin_music)
--- VALUES ( 'Earth, Wind & Fire','I was never there', './music/Earth_Wind_Fire-Love_holiday.mp3');
--- INSERT INTO music_bank (artiste,titre,chemin_music)
--- VALUES ( 'Earth, Wind & Fire','I was never there', './music/Earth_Wind_Fire-Love_holiday.mp3');
--- INSERT INTO music_bank (artiste,titre,chemin_music)
--- VALUES ( 'Earth, Wind & Fire','I was never there', './music/Earth_Wind_Fire-Love_holiday.mp3');
--- INSERT INTO music_bank (artiste,titre,chemin_music)
--- VALUES ( 'Earth, Wind & Fire','I was never there', './music/Earth_Wind_Fire-Love_holiday.mp3');
--- INSERT INTO music_bank (artiste,titre,chemin_music)
--- VALUES ( 'Earth, Wind & Fire','I was never there', './music/Earth_Wind_Fire-Love_holiday.mp3');
+INSERT INTO music_bank (artiste,titre,chemin_music)
+VALUES ( 'Farruko','Pepas', './music/Farruko-Pepas.mp3');
+INSERT INTO music_bank (artiste,titre,chemin_music)
+VALUES ( 'Rema','Calm Down', './music/Rema-Calm_Down.mp3');
+INSERT INTO music_bank (artiste,titre,chemin_music)
+VALUES ( 'Rema','woman', './music/Rema-Woman.mp3');
+INSERT INTO music_bank (artiste,titre,chemin_music)
+VALUES ( 'Shakira','Girl Like Me', './music/Shakira-GIRL_LIKE_ME.mp3');
+INSERT INTO music_bank (artiste,titre,chemin_music)
+VALUES ( 'Tiakola','Gasolina','./music/Tiakola-Gasolina.mp3');
