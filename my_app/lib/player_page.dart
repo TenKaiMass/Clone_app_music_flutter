@@ -27,16 +27,16 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       elevation: 0,
       leading: IconButton(
-        icon: const Icon(
+        icon: Icon(
           Icons.chevron_left,
-          color: Colors.black,
+          color: Colors.white,
           size: 30,
         ),
         onPressed: () {
           Navigator.pop(context);
         },
       ),
-      actions: const [
+      actions: [
         IconButton(
           icon: Icon(
             Icons.more_vert,
@@ -56,7 +56,7 @@ class ImageAuthor extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 550,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage('images/ariana.jpeg'),
           fit: BoxFit.cover,
@@ -106,7 +106,7 @@ class ArtistPictureSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 200),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(50),
@@ -122,7 +122,7 @@ class ArtistPictureSection extends StatelessWidget {
               width: 300,
               decoration: BoxDecoration(
                 color: Colors.grey[350],
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                   topRight: Radius.circular(50),
                 ),
               ),
@@ -140,7 +140,7 @@ class ArtistPictureSection extends StatelessWidget {
                   colorFilter: ColorFilter.mode(
                       Colors.blue.withOpacity(1), BlendMode.darken),
                 ),
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                   topRight: Radius.circular(50),
                 ),
               ),
@@ -162,6 +162,7 @@ class PlayerControl extends StatelessWidget {
         children: [
           PlayingMusicTitle(),
           MusicSliderSection(),
+          DurationSection(),
           MusicControlButtonSection()
         ],
       ),
@@ -205,7 +206,7 @@ class MusicSliderSection extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(5),
       child: Slider(
-        value: 1,
+        value: 19,
         min: 1.0,
         max: 100,
         divisions: 10,
@@ -217,35 +218,35 @@ class MusicSliderSection extends StatelessWidget {
   }
 }
 
-// class DurationSection extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       margin: EdgeInsets.only(left: 27, right: 27, bottom: 15),
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//         children: [
-//           Text(
-//             '1.08',
-//             style: GoogleFonts.lato(
-//               fontWeight: FontWeight.w400,
-//               fontSize: 14.0,
-//               color: Colors.grey,
-//             ),
-//           ),
-// Text(
-//   '3.14',
-//   style: GoogleFonts.lato(
-//     fontWeight: FontWeight.w400,
-//     fontSize: 14.0,
-//     color: Colors.grey,
-//   ),
-// ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+class DurationSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: 27, right: 27, bottom: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            '1.08',
+            style: GoogleFonts.lato(
+              fontWeight: FontWeight.w400,
+              fontSize: 14.0,
+              color: Colors.grey,
+            ),
+          ),
+          Text(
+            '3.14',
+            style: GoogleFonts.lato(
+              fontWeight: FontWeight.w400,
+              fontSize: 14.0,
+              color: Colors.grey,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class MusicControlButtonSection extends StatelessWidget {
   @override

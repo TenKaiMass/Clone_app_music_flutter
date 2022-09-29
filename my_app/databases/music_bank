@@ -1,23 +1,23 @@
-CREATE TABLE 'music_bank' ( 'id' INTEGER primary key AUTOINCREMENT,'titre' char(255) default NULL,'artiste' char(255) default NULL,'chemin_music' char(255));
+CREATE TABLE 'music_bank' ( 'id' INTEGER primary key AUTOINCREMENT,'titre' char(255) default NULL,'artiste' char(255) default NULL,'chemin_music' char(255),'cover' char(255) DEFAULT NULL);
 
-INSERT INTO music_bank (artiste,titre,chemin_music)
-VALUES ( 'Oxlade','KULOSAA', './music/Oxlade-KULOSAA.mp3' );
-INSERT INTO music_bank (titre,artiste,chemin_music)
-VALUES ( 'The Weekend','I was never there', './music/The_Weeknd-I_Was_Never_There.mp3');
+INSERT INTO music_bank (artiste,titre,chemin_music,cover)
+VALUES ( 'Oxlade','KULOSAA', './music/Oxlade-KULOSAA.mp3','./assets/Ku-Lo-Sa-Song-By-Oxlade.jpeg' );
+INSERT INTO music_bank (titre,artiste,chemin_music,cover)
+VALUES ( 'The Weekend','I was never there', './music/The_Weeknd-I_Was_Never_There.mp3','./assets/the_weekend.jpg');
 
-INSERT INTO music_bank (artiste,titre,chemin_music)
-VALUES ( 'Earth, Wind & Fire','I was never there', './music/Earth_Wind_Fire-Love_holiday.mp3');
+INSERT INTO music_bank (artiste,titre,chemin_music,cover)
+VALUES ( 'Earth, Wind & Fire','I was never there', './music/Earth_Wind_Fire-Love_holiday.mp3','./assets/earth_fire.jpg');
 
-INSERT INTO music_bank (artiste,titre,chemin_music)
-VALUES ( 'Damso ft. Hamza','BXL ZOO', './music/Damso_BXL_ZOO_Hamza.mp3');
+INSERT INTO music_bank (artiste,titre,chemin_music,cover)
+VALUES ( 'Damso ft. Hamza','BXL ZOO', './music/Damso_BXL_ZOO_Hamza.mp3','./assets/bxl_zoo.jpeg');
 
-INSERT INTO music_bank (artiste,titre,chemin_music)
-VALUES ( 'Farruko','Pepas', './music/Farruko-Pepas.mp3');
-INSERT INTO music_bank (artiste,titre,chemin_music)
-VALUES ( 'Rema','Calm Down', './music/Rema-Calm_Down.mp3');
-INSERT INTO music_bank (artiste,titre,chemin_music)
-VALUES ( 'Rema','woman', './music/Rema-Woman.mp3');
-INSERT INTO music_bank (artiste,titre,chemin_music)
-VALUES ( 'Shakira','Girl Like Me', './music/Shakira-GIRL_LIKE_ME.mp3');
-INSERT INTO music_bank (artiste,titre,chemin_music)
-VALUES ( 'Tiakola','Gasolina','./music/Tiakola-Gasolina.mp3');
+INSERT INTO music_bank (artiste,titre,chemin_music,cover)
+VALUES ( 'Farruko','Pepas', './music/Farruko-Pepas.mp3','./assets/pepas.jpg');
+INSERT INTO music_bank (artiste,titre,chemin_music,cover)
+VALUES ( 'Rema','Calm Down', './music/Rema-Calm_Down.mp3','./assets/Rema_Calm_Down.png');
+INSERT INTO music_bank (artiste,titre,chemin_music,cover)
+VALUES ( 'Rema','woman', './music/Rema-Woman.mp3','./assets/woman.jpeg');
+INSERT INTO music_bank (artiste,titre,chemin_music,cover)
+VALUES ( 'Shakira','Girl Like Me', './music/Shakira-GIRL_LIKE_ME.mp3','./assets/shakira.jpeg');
+INSERT INTO music_bank (artiste,titre,chemin_music,cover)
+VALUES ( 'Tiakola','Gasolina','./music/Tiakola-Gasolina.mp3','./assets/tiakola.jpg');
