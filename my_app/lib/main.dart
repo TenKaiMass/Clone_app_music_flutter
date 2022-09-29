@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/ServiceData.dart';
+import 'data_struct.dart';
 import 'lecteur.dart';
 
 void main() {
@@ -15,100 +18,174 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Spotifesse',
-        home: HomePage());
+        home: HomePageMutable());
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePageMutable extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return HomePage();
+  }
+}
+
+class HomePage extends State<HomePageMutable> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [songList()],
-        ),
-      ),
+      extendBodyBehindAppBar: false,
+      appBar: AppBar(backgroundColor: Colors.black),
+      // body: SingleChildScrollView(
+      //   child: Column(
+      //    children: [
+      //     ItemDesigned(
+      //         mydata: MyData(12, 'Damso ft. Hamza', 'BXL ZOO',
+      //             './music/Damso_BXL_ZOO_Hamza.mp3', './assets/bxl_zoo.jpeg')),
+      //     ItemDesigned(
+      //         mydata: MyData(13, 'Damso ft. Hamza', 'BXL ZOO',
+      //             './music/Damso_BXL_ZOO_Hamza.mp3', './assets/bxl_zoo.jpeg')),
+      //     ItemDesigned(
+      //         mydata: MyData(13, 'Damsa ft. Hamza', 'BXL ZOO',
+      //             './music/Damso_BXL_ZOO_Hamza.mp3', './assets/bxl_zoo.jpeg')),
+      //     ItemDesigned(
+      //         mydata: MyData(12, 'Damso ft. Hamza', 'BXL ZOO',
+      //             './music/Damso_BXL_ZOO_Hamza.mp3', './assets/bxl_zoo.jpeg')),
+      //     ItemDesigned(
+      //         mydata: MyData(13, 'Damso ft. Hamza', 'BXL ZOO',
+      //             './music/Damso_BXL_ZOO_Hamza.mp3', './assets/bxl_zoo.jpeg')),
+      //     ItemDesigned(
+      //         mydata: MyData(13, 'Damso ft. Hamza', 'BXL ZOO',
+      //             './music/Damso_BXL_ZOO_Hamza.mp3', './assets/bxl_zoo.jpeg')),
+      //           ],
+      //   ),
+      // ),
+      body: FutureBuilder<List<MyData>>(
+          future: MyDataBase.instance.musicBanks(),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<MyData>> snapshot) {
+            if (snapshot.connectionState != ConnectionState.done) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasData) {
+              List<MyData>? datas = snapshot.data;
+              return ListView.builder(
+                itemCount: datas!.length,
+                itemBuilder: (context, index) {
+                  final data = datas[index];
+                  return Dismissible(
+                      key: Key(data.id.toString()),
+                      onDismissed: (direction) {
+                        setState(() {
+                          MyDataBase.instance.deleteMyData(data.id);
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("music ${data.titre} supprimé")));
+                      },
+                      background: Container(color: Colors.red),
+                      child: ItemDesigned(mydata: data));
+                },
+              );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          }),
       bottomNavigationBar: MyBottumBar(),
     );
   }
 }
 
-// class Cover extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       height: 300,
-//       decoration: const BoxDecoration(
-//           color: Colors.greenAccent,
-//           image: DecorationImage(
-//             image: NetworkImage(
-//                 'https://m.media-amazon.com/images/I/71XeBLhY-yL._AC_SX679_.jpg'),
-//             fit: BoxFit.cover,
-//           ),
-//           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50))),
-//     );
-//   }
-// }
+class ItemDesigned extends StatelessWidget {
+  const ItemDesigned({Key? key, required this.mydata}) : super(key: key);
+  final MyData mydata;
 
-class songList extends StatelessWidget {
-  final List musicList = [
-    {'titre': 'titre1', 'etat': true, 'nom': 'artiste'},
-    {'titre': 'titre2', 'etat': false, 'nom': 'artiste2'},
-    {'titre': 'titre1', 'etat': true, 'nom': 'artiste'},
-    {'titre': 'titre2', 'etat': false, 'nom': 'artiste2'},
-    {'titre': 'titre1', 'etat': true, 'nom': 'artiste'},
-    {'titre': 'titre2', 'etat': false, 'nom': 'artiste2'},
-  ];
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(30, 40, 20, 20),
-      color: Colors.amber,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.fromLTRB(40, 8, 20, 20),
+      child: Row(
         children: [
-          Row(
-            children: [
-              const SizedBox(height: 50),
-              Text(
-                'liste Musique',
-                style: GoogleFonts.aBeeZee(
-                    color: Colors.black,
-                    fontSize: 25,
-                    fontWeight: FontWeight.w500),
-              )
-            ],
-          ),
-          const SizedBox(height: 20),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: musicList.map((song) {
-              return Container(
-                height: 70,
-                color: Colors.black12,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      song['titre'],
-                      style: GoogleFonts.actor(
-                          color:
-                              song['etat'] ? Colors.deepPurple : Colors.black,
-                          fontSize: 24),
-                    ),
-                    Text(song['nom'], style: GoogleFonts.abel(fontSize: 18)),
-                  ],
+          Image.asset(mydata.coverUrl,
+              width: 60, height: 60, fit: BoxFit.cover),
+          Container(
+            padding: const EdgeInsets.only(left: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  mydata.artiste,
+                  style: GoogleFonts.actor(
+                      // color:
+                      //     mydata['etat'] ? Colors.deepPurple : Colors.black,
+                      fontSize: 20),
                 ),
-              );
-            }).toList(),
+                Text(mydata.titre, style: GoogleFonts.abel(fontSize: 14)),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 }
+
+// class songList extends StatelessWidget {
+//   final List musicList = [
+//     {'titre': 'titre1', 'etat': true, 'nom': 'artiste'},
+//     {'titre': 'titre2', 'etat': false, 'nom': 'artiste2'},
+//     {'titre': 'titre1', 'etat': true, 'nom': 'artiste'},
+//     {'titre': 'titre2', 'etat': false, 'nom': 'artiste2'},
+//     {'titre': 'titre1', 'etat': true, 'nom': 'artiste'},
+//     {'titre': 'titre2', 'etat': false, 'nom': 'artiste2'},
+//   ];
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       padding: const EdgeInsets.fromLTRB(30, 40, 20, 20),
+//       color: Colors.amber,
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Row(
+//             children: [
+//               const SizedBox(height: 50),
+//               Text(
+//                 'liste Musique',
+//                 style: GoogleFonts.aBeeZee(
+//                     color: Colors.black,
+//                     fontSize: 25,
+//                     fontWeight: FontWeight.w500),
+//               )
+//             ],
+//           ),
+//           const SizedBox(height: 20),
+//           Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: musicList.map((song) {
+//               return Container(
+//                 height: 70,
+//                 color: Colors.black12,
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.stretch,
+//                   children: [
+//                     Text(
+//                       song['titre'],
+//                       style: GoogleFonts.actor(
+//                           color:
+//                               song['etat'] ? Colors.deepPurple : Colors.black,
+//                           fontSize: 24),
+//                     ),
+//                     Text(song['nom'], style: GoogleFonts.abel(fontSize: 18)),
+//                   ],
+//                 ),
+//               );
+//             }).toList(),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class MyBottumBar extends StatelessWidget {
   @override
