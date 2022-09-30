@@ -2,25 +2,25 @@ class MyData {
   int id;
   String titre;
   String artiste;
-  String musicUrl;
-  String coverUrl;
+  String chemin_music;
+  String cover;
 
-  MyData(this.id, this.titre, this.artiste, this.musicUrl, this.coverUrl);
+  MyData(this.id, this.titre, this.artiste, this.chemin_music, this.cover);
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'titre': titre,
       'artiste': artiste,
-      'chemin_music': musicUrl,
-      'cover': coverUrl
+      'chemin_music': chemin_music,
+      'cover': cover
     };
   }
   factory MyData.fromMap(Map<String, dynamic> map) => MyData(
-    map['title'],
     map['id'],
+    map['titre'],
     map['artiste'],
-    map['musicUrl'],
-    map['coverUrl'],
+    map['chemin_music'],
+    map['cover'],
   );
 }

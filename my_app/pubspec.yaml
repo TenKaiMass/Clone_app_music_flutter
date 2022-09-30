@@ -31,7 +31,7 @@ environment:
 dependencies:
   cached_network_image: ^3.2.2
   sqflite: any
-  path: any
+  path_provider: any
   flutter:
     sdk: flutter
 

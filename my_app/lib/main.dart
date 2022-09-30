@@ -29,43 +29,29 @@ class HomePageMutable extends StatefulWidget {
   }
 }
 
+void getData() async {
+  var DbHelper = MyDataBase.instance;
+  List<MyData> li = await DbHelper.musicBanks();
+}
+
 class HomePage extends State<HomePageMutable> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: false,
-      appBar: AppBar(backgroundColor: Colors.black),
-      // body: SingleChildScrollView(
-      //   child: Column(
-      //    children: [
-      //     ItemDesigned(
-      //         mydata: MyData(12, 'Damso ft. Hamza', 'BXL ZOO',
-      //             './music/Damso_BXL_ZOO_Hamza.mp3', './assets/bxl_zoo.jpeg')),
-      //     ItemDesigned(
-      //         mydata: MyData(13, 'Damso ft. Hamza', 'BXL ZOO',
-      //             './music/Damso_BXL_ZOO_Hamza.mp3', './assets/bxl_zoo.jpeg')),
-      //     ItemDesigned(
-      //         mydata: MyData(13, 'Damsa ft. Hamza', 'BXL ZOO',
-      //             './music/Damso_BXL_ZOO_Hamza.mp3', './assets/bxl_zoo.jpeg')),
-      //     ItemDesigned(
-      //         mydata: MyData(12, 'Damso ft. Hamza', 'BXL ZOO',
-      //             './music/Damso_BXL_ZOO_Hamza.mp3', './assets/bxl_zoo.jpeg')),
-      //     ItemDesigned(
-      //         mydata: MyData(13, 'Damso ft. Hamza', 'BXL ZOO',
-      //             './music/Damso_BXL_ZOO_Hamza.mp3', './assets/bxl_zoo.jpeg')),
-      //     ItemDesigned(
-      //         mydata: MyData(13, 'Damso ft. Hamza', 'BXL ZOO',
-      //             './music/Damso_BXL_ZOO_Hamza.mp3', './assets/bxl_zoo.jpeg')),
-      //           ],
-      //   ),
-      // ),
+      appBar: AppBar(
+          backgroundColor: Colors.black,
+          centerTitle: true,
+          title: Text(
+            "Spotifesse",
+            selectionColor: Colors.white,
+            style: GoogleFonts.amiko(fontSize: 25),
+          
+          )),
       body: FutureBuilder<List<MyData>>(
           future: MyDataBase.instance.musicBanks(),
           builder:
               (BuildContext context, AsyncSnapshot<List<MyData>> snapshot) {
-            if (snapshot.connectionState != ConnectionState.done) {
-              return Center(child: CircularProgressIndicator());
-            }
             if (snapshot.hasData) {
               List<MyData>? datas = snapshot.data;
               return ListView.builder(
@@ -100,12 +86,18 @@ class ItemDesigned extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      // onTap: () => {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(builder: (context, ItemDesigned(mydata: data)) => PlayerPage()),
+      //       ),
+      //     },
+      child : Container(
       padding: const EdgeInsets.fromLTRB(40, 8, 20, 20),
       child: Row(
         children: [
-          Image.asset(mydata.coverUrl,
-              width: 60, height: 60, fit: BoxFit.cover),
+          Image.asset(mydata.cover, width: 60, height: 60, fit: BoxFit.cover),
           Container(
             padding: const EdgeInsets.only(left: 10),
             child: Column(
@@ -123,7 +115,8 @@ class ItemDesigned extends StatelessWidget {
             ),
           ),
         ],
-      ),
+      ) 
+    ),
     );
   }
 }
