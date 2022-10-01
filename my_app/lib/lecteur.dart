@@ -1,22 +1,179 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class PlayerPage extends StatelessWidget {
+import 'data_struct.dart';
+
+class PlayerGestion extends StatefulWidget {
+  const PlayerGestion({Key? key, required this.mydata}) : super(key: key);
+  final MyData mydata;
+  @override
+  State<StatefulWidget> createState() => PlayerPage();
+}
+
+class PlayerPage extends State<PlayerGestion> {
+  bool toto = true;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: MyAppBar(),
-      body: Container(
-        color: Colors.white,
-        child: Column(
+    Widget image = Stack(children: [
+      Container(
+        height: 320,
+        margin: const EdgeInsets.only(top: 200),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(50),
+          ),
+        ),
+        child: Stack(
+          alignment: Alignment.center,
           children: [
-            ImageAuthor(),
-            PlayerControl(),
+            Positioned(
+              top: 65.0,
+              child: Container(
+                height: 250,
+                width: 300,
+                decoration: BoxDecoration(
+                  color: Colors.grey[350],
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(50),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 50.0,
+              child: Container(
+                height: 275,
+                width: 250,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(widget.mydata.cover),
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(50),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
-    );
+    ]);
+
+    Widget infSon = Container(
+        child: Column(//mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+      Container(
+          margin: EdgeInsets.only(top: 30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                widget.mydata.titre,
+                style: GoogleFonts.lato(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 25.0,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(width: 3),
+              Text(
+                widget.mydata.artiste,
+                style: GoogleFonts.lato(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14.0,
+                  color: Colors.blue,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: Slider(
+                  value: 1,
+                  min: 1.0,
+                  max: 100,
+                  divisions: 10,
+                  activeColor: Colors.blue,
+                  inactiveColor: Colors.grey,
+                  onChanged: (double newValue) {},
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10),
+                padding: EdgeInsets.all(5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.shuffle,
+                        color: Colors.grey,
+                        size: 35,
+                      ),
+                      onPressed: null,
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.skip_previous,
+                        color: Colors.black,
+                        size: 40,
+                      ),
+                      onPressed: null,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          toto ? toto = false : toto = true;
+                        });
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: Icon(
+                          toto ? Icons.pause : Icons.play_arrow,
+                          color: Colors.black,
+                          size: 40.0,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        shape: CircleBorder(),
+                        side: BorderSide(
+                          width: 1.0,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.skip_next,
+                        color: Colors.black,
+                        size: 40,
+                      ),
+                      onPressed: null,
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.repeat,
+                        color: Colors.grey,
+                        size: 35,
+                      ),
+                      onPressed: null,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          )),
+    ]));
+    return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: MyAppBar(),
+        body: Container(
+            color: Colors.white,
+            child: Column(children: [
+              Container(child: Column(children: [image, infSon]))
+            ])));
   }
 }
 
@@ -50,58 +207,28 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 }
+/*
 
 class ImageAuthor extends StatelessWidget {
+  const ImageAuthor({Key? key, required this.mydata}) : super(key: key);
+  final MyData mydata;
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 550,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('images/ariana.jpeg'),
-          fit: BoxFit.cover,
-        ),
-      ),
       child: Stack(children: [
-        TitleSection(),
-        ArtistPictureSection(),
+        ArtistPictureSection(
+          mydata: mydata,
+        ),
       ]),
     );
   }
 }
 
-class TitleSection extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 220,
-      width: double.infinity,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Artist',
-            style: GoogleFonts.lato(
-              fontWeight: FontWeight.w300,
-              fontSize: 14.0,
-              color: Colors.white,
-            ),
-          ),
-          Text(
-            'Ariana Grande',
-            style: GoogleFonts.lato(
-              fontWeight: FontWeight.w800,
-              fontSize: 17.0,
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class ArtistPictureSection extends StatelessWidget {
+  const ArtistPictureSection({Key? key, required this.mydata})
+      : super(key: key);
+  final MyData mydata;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -135,10 +262,8 @@ class ArtistPictureSection extends StatelessWidget {
               width: 250,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('images/ariana.jpeg'),
+                  image: AssetImage(mydata.cover),
                   fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                      Colors.blue.withOpacity(1), BlendMode.darken),
                 ),
                 borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(50),
@@ -153,6 +278,8 @@ class ArtistPictureSection extends StatelessWidget {
 }
 
 class PlayerControl extends StatelessWidget {
+  const PlayerControl({Key? key, required this.mydata}) : super(key: key);
+  final MyData mydata;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -160,9 +287,15 @@ class PlayerControl extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          PlayingMusicTitle(),
-          MusicSliderSection(),
-          MusicControlButtonSection()
+          PlayingMusicTitle(
+            mydata: mydata,
+          ),
+          MusicSliderSection(
+            mydata: mydata,
+          ),
+          MusicControlButtonSection(
+            mydata: mydata,
+          )
         ],
       ),
     );
@@ -170,6 +303,8 @@ class PlayerControl extends StatelessWidget {
 }
 
 class PlayingMusicTitle extends StatelessWidget {
+  const PlayingMusicTitle({Key? key, required this.mydata}) : super(key: key);
+  final MyData mydata;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -177,7 +312,7 @@ class PlayingMusicTitle extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Imagine',
+            mydata.titre,
             style: GoogleFonts.lato(
               fontWeight: FontWeight.w700,
               fontSize: 25.0,
@@ -186,7 +321,7 @@ class PlayingMusicTitle extends StatelessWidget {
           ),
           SizedBox(width: 3),
           Text(
-            'Ariana Grande',
+            mydata.artiste,
             style: GoogleFonts.lato(
               fontWeight: FontWeight.w400,
               fontSize: 14.0,
@@ -200,6 +335,8 @@ class PlayingMusicTitle extends StatelessWidget {
 }
 
 class MusicSliderSection extends StatelessWidget {
+  const MusicSliderSection({Key? key, required this.mydata}) : super(key: key);
+  final MyData mydata;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -248,6 +385,10 @@ class MusicSliderSection extends StatelessWidget {
 // }
 
 class MusicControlButtonSection extends StatelessWidget {
+  const MusicControlButtonSection({Key? key, required this.mydata})
+      : super(key: key);
+  final MyData mydata;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -312,3 +453,4 @@ class MusicControlButtonSection extends StatelessWidget {
     );
   }
 }
+*/
