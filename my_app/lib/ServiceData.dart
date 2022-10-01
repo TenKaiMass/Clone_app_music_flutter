@@ -18,21 +18,23 @@ class MyDataBase {
 
   initDB() async {
     Directory docDir = await getApplicationDocumentsDirectory();
+    Directory currentDir = await getTemporaryDirectory();
+    var toto =
+        "/Users/mass/Documents/Cours/H3/M2/Projet_Docker_du_11-10/Docker_archi/my_app/databases/";
     var dbDir = await getDatabasesPath();
-    var dbPath = join(dbDir, 'auto_gen_bank.db');
+    var dbPath = join(toto, 'auto_gen_bank.db');
+
     var exist = await databaseExists(dbPath);
     if (!exist) {
       try {
         await Directory(dirname(dbPath)).create(recursive: true);
       } catch (_) {}
-      ByteData data = await rootBundle.load("assets/ma_bank.db");
+      ByteData data = await rootBundle.load("databases/auto_gen_bank.db");
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
       await File(dbPath).writeAsBytes(bytes, flush: true);
-    } else {
-
-    }
+    } else {}
     return await openDatabase(dbPath);
   }
 

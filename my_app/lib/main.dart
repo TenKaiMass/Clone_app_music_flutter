@@ -29,11 +29,6 @@ class HomePageMutable extends StatefulWidget {
   }
 }
 
-void getData() async {
-  var DbHelper = MyDataBase.instance;
-  List<MyData> li = await DbHelper.musicBanks();
-}
-
 class HomePage extends State<HomePageMutable> {
   @override
   Widget build(BuildContext context) {
@@ -43,10 +38,9 @@ class HomePage extends State<HomePageMutable> {
           backgroundColor: Colors.black,
           centerTitle: true,
           title: Text(
-            "Spotifesse",
+            "uSic",
             selectionColor: Colors.white,
             style: GoogleFonts.amiko(fontSize: 25),
-          
           )),
       body: FutureBuilder<List<MyData>>(
           future: MyDataBase.instance.musicBanks(),
@@ -87,36 +81,38 @@ class ItemDesigned extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // onTap: () => {
-      //       Navigator.push(
-      //         context,
-      //         MaterialPageRoute(builder: (context, ItemDesigned(mydata: data)) => PlayerPage()),
-      //       ),
-      //     },
-      child : Container(
-      padding: const EdgeInsets.fromLTRB(40, 8, 20, 20),
-      child: Row(
-        children: [
-          Image.asset(mydata.cover, width: 60, height: 60, fit: BoxFit.cover),
-          Container(
-            padding: const EdgeInsets.only(left: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  mydata.artiste,
-                  style: GoogleFonts.actor(
-                      // color:
-                      //     mydata['etat'] ? Colors.deepPurple : Colors.black,
-                      fontSize: 20),
-                ),
-                Text(mydata.titre, style: GoogleFonts.abel(fontSize: 14)),
-              ],
-            ),
-          ),
-        ],
-      ) 
-    ),
+      onTap: () => {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => PlayerGestion(mydata: mydata)),
+        ),
+      },
+      child: Card(
+          child: Container(
+              padding: const EdgeInsets.fromLTRB(40, 8, 20, 20),
+              child: Row(
+                children: [
+                  Image.asset(mydata.cover,
+                      width: 60, height: 60, fit: BoxFit.cover),
+                  Container(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          mydata.titre,
+                          style: GoogleFonts.actor(
+                              // color:
+                              //     mydata['etat'] ? Colors.deepPurple : Colors.black,
+                              fontSize: 20),
+                        ),
+                        Text(mydata.artiste,
+                            style: GoogleFonts.abel(fontSize: 14)),
+                      ],
+                    ),
+                  ),
+                ],
+              ))),
     );
   }
 }
@@ -179,35 +175,35 @@ class ItemDesigned extends StatelessWidget {
 //     );
 //   }
 // }
-
+// TODO
 class MyBottumBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       showSelectedLabels: false,
       showUnselectedLabels: false,
-      onTap: ((value) => {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => PlayerPage()),
-            ),
-          }),
+      // onTap: ((value) => {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(builder: (context) => PlayerPage(mydata: mydata,)),
+      //       ),
+      //     }),
       backgroundColor: Colors.deepPurpleAccent,
-      items: [
-        const BottomNavigationBarItem(
+      items: const [
+        BottomNavigationBarItem(
           icon: Icon(
             Icons.pause,
             color: Colors.white,
           ),
           label: '',
         ),
+        // BottomNavigationBarItem(
+        //     label: '',
+        //     icon: Text(
+        //       'le poulet',
+        //       style: GoogleFonts.actor(fontSize: 14, color: Colors.white),
+        //     )),
         BottomNavigationBarItem(
-            label: '',
-            icon: Text(
-              'le poulet',
-              style: GoogleFonts.actor(fontSize: 14, color: Colors.white),
-            )),
-        const BottomNavigationBarItem(
           icon: Icon(
             Icons.arrow_upward,
             color: Colors.white,
