@@ -39,9 +39,9 @@ Pour le moment nous executons que via `Visual Studio code` sur un emulateur ios 
 
 Ce clone d’application de music ce composera de 2-3 page de navigation avec une liste de musique, la page de la musique lancer, et à l’avenir une page de connections.
 
-![appd1.png](README%2057e5b44edaf14e709efb99e988015d6f/appd1.png)
+![appd1.png](assets/appd1.png)
 
-![appd2.png](README%2057e5b44edaf14e709efb99e988015d6f/appd2.png)
+![appd2.png](assets/appd2.png)
 
 Il suffit de cliquer sur une music puis d’appuyer sur play pour jouer la music.
 
