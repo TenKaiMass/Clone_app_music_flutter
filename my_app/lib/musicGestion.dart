@@ -19,6 +19,7 @@
 //     initPlayer();
 //   }
 
+
 //   void initPlayer(){
 //     advancedPlayer =  AudioPlayer();
 //     audioCache = AudioCache(fixedPlayer: advancedPlayer);
