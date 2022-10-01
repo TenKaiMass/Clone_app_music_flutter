@@ -1,5 +1,3 @@
-# README
-
 # Music Pro (clone Spotify)
 
 ## Introduction
@@ -22,6 +20,7 @@ Cette commande crera et lancera le contener.
 > 
 
 La base de donnée est composé d’une premère table `music_bank`:
+
 <img src="assets/music_bank.png" 
 width="600"
 height="300">
@@ -41,12 +40,14 @@ Pour le moment nous executons que via `Visual Studio code` sur un emulateur ios 
 
 Ce clone d’application de music ce composera de 2-3 page de navigation avec une liste de musique, la page de la musique lancer, et à l’avenir une page de connections.
 
+
 <img src="assets/appd1.png" 
 width="300"
 height="600">
 <img src="assets/appd2.png" 
 width="300"
 height="600">
+
 
 Il suffit de cliquer sur une music puis d’appuyer sur play pour jouer la music.
 
