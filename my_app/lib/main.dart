@@ -175,7 +175,7 @@ class ItemDesigned extends StatelessWidget {
 //     );
 //   }
 // }
-// TODO
+
 class MyBottumBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

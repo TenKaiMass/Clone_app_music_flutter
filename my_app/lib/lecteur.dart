@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,7 +12,57 @@ class PlayerGestion extends StatefulWidget {
 }
 
 class PlayerPage extends State<PlayerGestion> {
-  bool toto = true;
+  Duration _duration = Duration.zero;
+  Duration _position = Duration.zero;
+  AudioPlayer? advancedPlayer;
+  AudioCache? audioCache;
+  bool isPlayed = false;
+
+  String formaTime(Duration d) {
+    if (d == null) {
+      return "--:--";
+    } else {
+      var min = d.inMinutes.toString().padLeft(2, '0');
+      var sec = d.inSeconds.remainder(60).toString().padLeft(2, '0');
+      return "$min:$sec";
+    }
+  }
+
+  initPlayer() {
+    advancedPlayer = AudioPlayer();
+    audioCache = AudioCache(fixedPlayer: advancedPlayer);
+  }
+
+  Future setAudio() async {
+    audioCache = AudioCache(prefix: 'music/');
+    final url = await audioCache?.load(widget.mydata.chemin_music);
+    advancedPlayer?.setUrl(url!.path, isLocal: true);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initPlayer();
+    setAudio();
+    advancedPlayer?.onPlayerStateChanged.listen((state) {
+      isPlayed = state == PlayerState.PLAYING;
+    });
+    advancedPlayer?.onDurationChanged.listen((event) {
+      setState(() {
+        _duration = event;
+      });
+    });
+    advancedPlayer?.onAudioPositionChanged.listen((event) {
+      setState(() {
+        _position = event;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,13 +141,27 @@ class PlayerPage extends State<PlayerGestion> {
               Container(
                 padding: EdgeInsets.all(5),
                 child: Slider(
-                  value: 1,
-                  min: 1.0,
-                  max: 100,
+                  value: _position.inSeconds.toDouble(),
+                  min: 0,
+                  max: _duration.inSeconds.toDouble(),
                   divisions: 10,
                   activeColor: Colors.blue,
                   inactiveColor: Colors.grey,
-                  onChanged: (double newValue) {},
+                  onChanged: (value) async {
+                    final position = Duration(seconds: value.toInt());
+                    await advancedPlayer?.seek(position);
+
+                  },
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(formaTime(_position)),
+                    Text(formaTime(_duration - _position))
+                  ],
                 ),
               ),
               Container(
@@ -122,15 +187,15 @@ class PlayerPage extends State<PlayerGestion> {
                       onPressed: null,
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          toto ? toto = false : toto = true;
-                        });
+                      onPressed: () async {
+                        isPlayed
+                            ? advancedPlayer?.pause()
+                            : advancedPlayer?.resume();
                       },
                       child: Container(
                         padding: EdgeInsets.all(10),
                         child: Icon(
-                          toto ? Icons.pause : Icons.play_arrow,
+                          isPlayed ? Icons.pause : Icons.play_arrow,
                           color: Colors.black,
                           size: 40.0,
                         ),
@@ -175,6 +240,10 @@ class PlayerPage extends State<PlayerGestion> {
               Container(child: Column(children: [image, infSon]))
             ])));
   }
+
+  // String formatTime(Duration position) {
+  //   String
+  // }
 }
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -191,6 +260,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         onPressed: () {
           Navigator.pop(context);
+          
         },
       ),
       actions: const [
