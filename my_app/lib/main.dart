@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,9 @@ import 'lecteur.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -31,67 +34,37 @@ class MyApp extends StatelessWidget {
 class HomePageMutable extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    //return HomePage();
-    return HomeFireBase();
-  }
-}
-
-class HomeFireBase extends State<HomePageMutable> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: false,
-      appBar: AppBar(
-          backgroundColor: Colors.black,
-          centerTitle: true,
-          title: Text(
-            "uSic",
-            selectionColor: Colors.white,
-            style: GoogleFonts.amiko(fontSize: 25),
-          )),
-      body: FireBase(),
-    );
+    return HomePage();
+    //return HomeFireBase();
   }
 }
 
 class HomePage extends State<HomePageMutable> {
+  final Stream<QuerySnapshot> _musicStream = FirebaseFirestore.instance
+      .collection("music_bank")
+      .snapshots(includeMetadataChanges: true);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: false,
-      appBar: AppBar(
-          backgroundColor: Colors.black,
-          centerTitle: true,
-          title: Text(
-            "uSic",
-            selectionColor: Colors.white,
-            style: GoogleFonts.amiko(fontSize: 25),
-          )),
-      body: FutureBuilder<List<MyData>>(
-          future: MyDataBase.instance.musicBanks(),
-          builder:
-              (BuildContext context, AsyncSnapshot<List<MyData>> snapshot) {
+      appBar: MyAppBar2(),
+      body: StreamBuilder(
+          stream: _musicStream,
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {
-              List<MyData>? datas = snapshot.data;
+              //List<MyData>? datas = snapshot.data
+              var datas = snapshot.data;
               return ListView.builder(
-                itemCount: datas!.length,
+                itemCount: datas!.docs.length, //datas.length,
                 itemBuilder: (context, index) {
-                  final data = datas[index];
-                  return Dismissible(
-                      key: Key(data.id.toString()),
-                      onDismissed: (direction) {
-                        setState(() {
-                          MyDataBase.instance.deleteMyData(data.id);
-                        });
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text("music ${data.titre} supprimé")));
-                      },
-                      background: Container(color: Colors.red),
-                      child: ItemDesigned(mydata: data));
+                  final data = datas.docs[index];
+                  return Container(child: ItemDesigned(mydata: data));
                 },
               );
-            } else {
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
+            } else {
+              return Text("on est dans le pb " + snapshot.error.toString());
             }
           }),
       bottomNavigationBar: MyBottumBar(),
@@ -101,7 +74,8 @@ class HomePage extends State<HomePageMutable> {
 
 class ItemDesigned extends StatelessWidget {
   const ItemDesigned({Key? key, required this.mydata}) : super(key: key);
-  final MyData mydata;
+  final QueryDocumentSnapshot mydata;
+  //final MyData mydata;
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +84,8 @@ class ItemDesigned extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => PlayerGestion(mydata: mydata)),
+              builder: (context) => PlayerGestion(mydata: mydata),
+              fullscreenDialog: true),
         ),
       },
       child: Card(
@@ -118,7 +93,7 @@ class ItemDesigned extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(40, 8, 20, 20),
               child: Row(
                 children: [
-                  Image.asset(mydata.cover,
+                  Image.asset(mydata['cover'],
                       width: 60, height: 60, fit: BoxFit.cover),
                   Container(
                     padding: const EdgeInsets.only(left: 10),
@@ -126,13 +101,13 @@ class ItemDesigned extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          mydata.titre,
+                          mydata['titre'],
                           style: GoogleFonts.actor(
                               // color:
                               //     mydata['etat'] ? Colors.deepPurple : Colors.black,
                               fontSize: 20),
                         ),
-                        Text(mydata.artiste,
+                        Text(mydata['artiste'],
                             style: GoogleFonts.abel(fontSize: 14)),
                       ],
                     ),
@@ -149,12 +124,6 @@ class MyBottumBar extends StatelessWidget {
     return BottomNavigationBar(
       showSelectedLabels: false,
       showUnselectedLabels: false,
-      // onTap: ((value) => {
-      //       Navigator.push(
-      //         context,
-      //         MaterialPageRoute(builder: (context) => PlayerPage(mydata: mydata,)),
-      //       ),
-      //     }),
       backgroundColor: Colors.deepPurpleAccent,
       items: const [
         BottomNavigationBarItem(
@@ -164,12 +133,6 @@ class MyBottumBar extends StatelessWidget {
           ),
           label: '',
         ),
-        // BottomNavigationBarItem(
-        //     label: '',
-        //     icon: Text(
-        //       'le poulet',
-        //       style: GoogleFonts.actor(fontSize: 14, color: Colors.white),
-        //     )),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.arrow_upward,
@@ -179,5 +142,37 @@ class MyBottumBar extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class MyAppBar2 extends StatelessWidget implements PreferredSizeWidget {
+  Size get preferredSize => new Size.fromHeight(60);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+        backgroundColor: Colors.black,
+        centerTitle: true,
+        title: Text(
+          "uSic",
+          selectionColor: Colors.white,
+          style: GoogleFonts.amiko(fontSize: 25),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            color: Colors.white,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const Scaffold(
+                    body: Center(child: Text("Not Implement Yet!")),
+                  ),
+                ),
+              );
+            },
+          ),
+        ]);
   }
 }

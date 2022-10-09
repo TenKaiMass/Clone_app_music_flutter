@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import 'data_struct.dart';
+
 class FireBase extends StatefulWidget {
   const FireBase({Key? key}) : super(key: key);
 
@@ -35,4 +37,21 @@ class UsicData extends State<FireBase> {
       },
     );
   }
+
+  void insertMyData(MyData music) async {
+    final db = FirebaseFirestore.instance.collection("music_bank").doc();
+    music.id = db.id as int;
+    await db.set(music.toMap());
+  }
+
+  void updateMyData(MyData musicBank) async {
+    void deleteMyData(int id) async {}
+  }
+
+  // Stream<List<MyData>> readAll() =>
+  //     FirebaseFirestore.instance
+  //     .collection("music_bank")
+  //     .snapshots()
+  //     .map((snapshot) => snapshot.docs.map((doc) => MyData.fromMap(doc.data()));
+      
 }
