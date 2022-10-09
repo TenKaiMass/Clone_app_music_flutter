@@ -1,11 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_core/firebase_core.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/ServiceData.dart';
 import 'data_struct.dart';
+import 'cloud.dart';
+import 'firebase_options.dart';
 import 'lecteur.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
   runApp(const MyApp());
 }
 
@@ -25,7 +31,26 @@ class MyApp extends StatelessWidget {
 class HomePageMutable extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return HomePage();
+    //return HomePage();
+    return HomeFireBase();
+  }
+}
+
+class HomeFireBase extends State<HomePageMutable> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      extendBodyBehindAppBar: false,
+      appBar: AppBar(
+          backgroundColor: Colors.black,
+          centerTitle: true,
+          title: Text(
+            "uSic",
+            selectionColor: Colors.white,
+            style: GoogleFonts.amiko(fontSize: 25),
+          )),
+      body: FireBase(),
+    );
   }
 }
 
@@ -84,7 +109,8 @@ class ItemDesigned extends StatelessWidget {
       onTap: () => {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => PlayerGestion(mydata: mydata)),
+          MaterialPageRoute(
+              builder: (context) => PlayerGestion(mydata: mydata)),
         ),
       },
       child: Card(
@@ -116,65 +142,6 @@ class ItemDesigned extends StatelessWidget {
     );
   }
 }
-
-// class songList extends StatelessWidget {
-//   final List musicList = [
-//     {'titre': 'titre1', 'etat': true, 'nom': 'artiste'},
-//     {'titre': 'titre2', 'etat': false, 'nom': 'artiste2'},
-//     {'titre': 'titre1', 'etat': true, 'nom': 'artiste'},
-//     {'titre': 'titre2', 'etat': false, 'nom': 'artiste2'},
-//     {'titre': 'titre1', 'etat': true, 'nom': 'artiste'},
-//     {'titre': 'titre2', 'etat': false, 'nom': 'artiste2'},
-//   ];
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       padding: const EdgeInsets.fromLTRB(30, 40, 20, 20),
-//       color: Colors.amber,
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Row(
-//             children: [
-//               const SizedBox(height: 50),
-//               Text(
-//                 'liste Musique',
-//                 style: GoogleFonts.aBeeZee(
-//                     color: Colors.black,
-//                     fontSize: 25,
-//                     fontWeight: FontWeight.w500),
-//               )
-//             ],
-//           ),
-//           const SizedBox(height: 20),
-//           Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: musicList.map((song) {
-//               return Container(
-//                 height: 70,
-//                 color: Colors.black12,
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.stretch,
-//                   children: [
-//                     Text(
-//                       song['titre'],
-//                       style: GoogleFonts.actor(
-//                           color:
-//                               song['etat'] ? Colors.deepPurple : Colors.black,
-//                           fontSize: 24),
-//                     ),
-//                     Text(song['nom'], style: GoogleFonts.abel(fontSize: 18)),
-//                   ],
-//                 ),
-//               );
-//             }).toList(),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 class MyBottumBar extends StatelessWidget {
   @override
