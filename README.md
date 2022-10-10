@@ -57,20 +57,20 @@ Il suffit de cliquer sur une music puis d’appuyer sur play pour jouer la music
     - [x]  dockeriser la base de données
     - [x]  remplir la base de données
     - [x]  passer la base de données sur Firebase
-    - [ ]  Implementer la table users
+    - [x]  Implementer la table users
 - [ ]  Flutter
     - [x]  Crée la homePage
     - [x]  crée la page de lecture
-    - [ ]  Crée la page auth
-    - [ ]  gerer les appBar
+    - [x]  Crée la page auth
     - [x]  CRUD
     - [x]  afficher les données de la table music_bank de la base de données
     - [x]  changer naviger entre les pages
     - [x]  gerer l’audioPlayer qui lance et arrete la musique
     - [x]  implementer le slider qui gere la position de la musique
-    - [ ]  faire des test de front et de back
+    - [ ]  faire des test 
     - [ ]  Conteneriser via docker
 - [ ]  Optionnel
+    - [ ]  gerer les appBar
     - [ ]  implementer graphiquement tout les crud
     - [ ]  mettre un thème sombre
     - [ ]  cree des compte user

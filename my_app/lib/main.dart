@@ -1,14 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/ServiceData.dart';
+import 'package:my_app/register.dart';
+import 'package:my_app/utils.dart';
+import 'auth.dart';
 import 'data_struct.dart';
 import 'cloud.dart';
 import 'firebase_options.dart';
 import 'lecteur.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +30,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Spotifesse',
-        home: HomePageMutable());
+        home: WidgetTree());
   }
 }
 
@@ -69,6 +72,12 @@ class HomePage extends State<HomePageMutable> {
           }),
       bottomNavigationBar: MyBottumBar(),
     );
+  }
+
+  Future insertMyData(MyData music) async {
+    final db = FirebaseFirestore.instance.collection("music_bank").doc();
+    music.id = db.id;
+    await db.set(music.toMap());
   }
 }
 
@@ -145,34 +154,25 @@ class MyBottumBar extends StatelessWidget {
   }
 }
 
-class MyAppBar2 extends StatelessWidget implements PreferredSizeWidget {
-  Size get preferredSize => new Size.fromHeight(60);
+class WidgetTree extends StatefulWidget {
+  const WidgetTree({Key? key}) : super(key: key);
 
   @override
+  State<WidgetTree> createState() => _WidgetTreeState();
+}
+
+class _WidgetTreeState extends State<WidgetTree> {
+  @override
   Widget build(BuildContext context) {
-    return AppBar(
-        backgroundColor: Colors.black,
-        centerTitle: true,
-        title: Text(
-          "uSic",
-          selectionColor: Colors.white,
-          style: GoogleFonts.amiko(fontSize: 25),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            color: Colors.white,
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const Scaffold(
-                    body: Center(child: Text("Not Implement Yet!")),
-                  ),
-                ),
-              );
-            },
-          ),
-        ]);
+    return StreamBuilder(
+      stream: Auth().authStateChanges,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return HomePageMutable();
+        } else {
+          return const LoginPage();
+        }
+      },
+    );
   }
 }

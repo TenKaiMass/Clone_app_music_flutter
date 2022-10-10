@@ -38,9 +38,9 @@ class UsicData extends State<FireBase> {
     );
   }
 
-  void insertMyData(MyData music) async {
+  Future insertMyData(MyData music) async {
     final db = FirebaseFirestore.instance.collection("music_bank").doc();
-    music.id = db.id as int;
+    music.id = db.id;
     await db.set(music.toMap());
   }
 
