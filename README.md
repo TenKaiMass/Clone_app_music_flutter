@@ -1,13 +1,29 @@
 # README
 
-# Music Pro (clone Spotify)
+# uSic (clone Spotify)
+
+## Pre-requis
+Il faut dans votre machine installer flutter https://docs.flutter.dev/get-started/install/macos
+
+trop gentil j'ai mis le lien ☝️
+
+Je pense que le premier demarrage peut-etre très long
 
 ## Introduction
 
-le projet a pour but de faire un clone d’application de music en `flutter`. Il faudra interagir avec une BDD. Elle sera deployée avec `Docker`
+le projet a pour but de faire un clone d’application de music en `flutter`. Il faudra interagir avec une BDD. Elle sera deployée avec `Docker` 
+> J'avais la flemme de faire la Dockerisation car il aurait fallu que je passe par android studio pour lancer des emulateur etant donné que l'image macos n'existe pas...
 
 ## BDD
 
+### New 
+La base de donnée tourne maintenant sur firebase dans le cloud, de plus les comptes users sont maintenant disponible 
+et il faut se connecter pour avoir accès aux musics. 
+<img src="assets/auth.png" 
+width="300"
+height="600">
+
+### Old
 La base de donnée est pour le moment en `sqlite` elle est de plus déployé via `docker` .
 
 Pour lancer la base de données, il faut avoir docker sur ça machine, l’execution de celle-ci passe par un `docker compose`. Dans le repertoire `my_app` executer la command :
@@ -18,17 +34,24 @@ docker compose up
 
 Cette commande crera et lancera le contener.
 
-> Par la suite nous essayerons avec cette base de passer sur `Firebase`.
-> 
 
 La base de donnée est composé d’une premère table `music_bank`:
+### SQlite version
 <img src="assets/music_bank.png" 
 width="600"
 height="300">
 
+### Firebase version
 
-Par la suite une table user sera developpée…
+<img src="assets/music_bank_f.png" 
+width="600"
+height="300">
 
+la base de donnée des `users` est séparée dans la partie `Authentification` sur `Firebase`:
+
+<img src="assets/users.png" 
+width="600"
+height="300">
 ## Application
 
 Une application est composée de 2 parties, avec le `backend` et le `frontend` dans notre cas nous allons utilisé qu’un seul langage pour consillier les 2. 
@@ -39,7 +62,7 @@ Pour le moment nous executons que via `Visual Studio code` sur un emulateur ios 
 
 ### Utilisation l’application
 
-Ce clone d’application de music ce composera de 2-3 page de navigation avec une liste de musique, la page de la musique lancer, et à l’avenir une page de connections.
+Ce clone d’application de music ce composera de 2-3 page de navigation avec une liste de musique, la page de la musique lancer, et l'obligation de s'authentifier.
 
 <img src="assets/appd1.png" 
 width="300"
@@ -50,6 +73,13 @@ height="600">
 
 Il suffit de cliquer sur une music puis d’appuyer sur play pour jouer la music.
 
+> Pour lancer l'application :
+il faut ce rendre une fois le depot cloner dans le `dir` ``my_app`` puis en ligne de commande :
+
+```bash
+flutter run
+```
+> Il est plus simple d'executer un via un IDE permettant de relier un device plus facilement  
 ## TODO
 
 - [ ]  BDD
