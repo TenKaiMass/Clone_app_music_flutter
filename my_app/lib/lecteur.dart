@@ -2,7 +2,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'data_struct.dart';
 
 class PlayerGestion extends StatefulWidget {
@@ -254,7 +253,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       leading: IconButton(
         icon: const Icon(
-          Icons.chevron_left,
+          Icons.arrow_drop_down_outlined,
           color: Colors.black,
           size: 30,
         ),

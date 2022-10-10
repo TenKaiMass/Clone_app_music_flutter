@@ -1,5 +1,5 @@
 class MyData {
-  int id;
+  String id;
   String titre;
   String artiste;
   String chemin_music;
@@ -24,10 +24,4 @@ class MyData {
         map['chemin_music'],
         map['cover'],
       );
-
-
-
-  
-
-  
 }
