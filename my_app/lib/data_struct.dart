@@ -5,7 +5,6 @@ class MyData {
   String chemin_music;
   String cover;
 
-
   MyData(this.id, this.titre, this.artiste, this.chemin_music, this.cover);
 
   Map<String, dynamic> toMap() {
@@ -25,4 +24,10 @@ class MyData {
         map['chemin_music'],
         map['cover'],
       );
+
+
+
+  
+
+  
 }

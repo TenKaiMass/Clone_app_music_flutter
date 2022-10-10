@@ -57,7 +57,8 @@ Il suffit de cliquer sur une music puis d’appuyer sur play pour jouer la music
     - [x]  Crée la base de données
     - [x]  dockeriser la base de données
     - [x]  remplir la base de données
-    - [ ]  passer la base de données sur Firebase
+    - [x]  passer la base de données sur Firebase
+    - [ ]  Implementer la table users
 - [ ]  Flutter
     - [x]  Crée la homePage
     - [x]  crée la page de lecture
