@@ -165,7 +165,7 @@ class _WidgetTreeState extends State<WidgetTree> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: Auth().authStateChanges,
+      stream: Auth(auth: FirebaseAuth.instance).authStateChanges,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return HomePageMutable();

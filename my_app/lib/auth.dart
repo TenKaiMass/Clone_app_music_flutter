@@ -1,23 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Auth {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+ // final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth auth;
+  Auth({required this.auth});
+  User? get currentUser => this.auth.currentUser;
 
-  User? get currentUser => _firebaseAuth.currentUser;
-
-  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();  
+  Stream<User?> get authStateChanges => this.auth.authStateChanges();
 
   Future<void> sendPasswordResetEmail({
     required String mail,
   }) async {
-    await _firebaseAuth.sendPasswordResetEmail(email: mail);
+    await this.auth.sendPasswordResetEmail(email: mail);
   }
 
   Future<void> signInWithEmailAndPassword({
     required String mail,
     required String mdp,
   }) async {
-    await _firebaseAuth.signInWithEmailAndPassword(
+    await this.auth.signInWithEmailAndPassword(
       email: mail,
       password: mdp,
     );
@@ -27,13 +28,13 @@ class Auth {
     required String mail,
     required String mdp,
   }) async {
-    await _firebaseAuth.createUserWithEmailAndPassword(
+    await this.auth.createUserWithEmailAndPassword(
       email: mail,
       password: mdp,
     );
   }
 
   Future<void> signOut() async {
-    await _firebaseAuth.signOut();
+    await this.auth.signOut();
   }
 }

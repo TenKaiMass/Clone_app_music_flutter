@@ -21,10 +21,10 @@ class MyAppBar1 extends StatelessWidget implements PreferredSizeWidget {
   }
 }
 class MyAppBar2 extends StatelessWidget implements PreferredSizeWidget {
-  final User? user = Auth().currentUser;
+  final User? user = Auth(auth: FirebaseAuth.instance).currentUser;
 
   Future<void> signOut() async {
-    await Auth().signOut();
+    await Auth(auth: FirebaseAuth.instance).signOut();
   }
 
 
