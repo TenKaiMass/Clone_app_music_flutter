@@ -16,6 +16,7 @@ le projet a pour but de faire un clone d’application de music en `flutter`. Il
 
 ### New 
 La base de donnée tourne maintenant sur firebase dans le cloud, de plus les comptes users sont maintenant disponible et il faut se connecter pour avoir accès aux musics. 
+
 <img src="assets/auth.png" 
 width="300"
 height="600">
