@@ -1,5 +1,3 @@
-# README
-
 # uSic (clone Spotify)
 
 ## Pre-requis
@@ -17,8 +15,7 @@ le projet a pour but de faire un clone d’application de music en `flutter`. Il
 ## BDD
 
 ### New 
-La base de donnée tourne maintenant sur firebase dans le cloud, de plus les comptes users sont maintenant disponible 
-et il faut se connecter pour avoir accès aux musics. 
+La base de donnée tourne maintenant sur firebase dans le cloud, de plus les comptes users sont maintenant disponible et il faut se connecter pour avoir accès aux musics. 
 <img src="assets/auth.png" 
 width="300"
 height="600">
@@ -74,15 +71,26 @@ height="600">
 Il suffit de cliquer sur une music puis d’appuyer sur play pour jouer la music.
 
 > Pour lancer l'application :
-il faut ce rendre une fois le depot cloner dans le `dir` ``my_app`` puis en ligne de commande :
+Etant un appli mobile il faut un `device` pour cela sur mac: on peut ouvrir l'application `Simulator` soit en ligne de commande :
+```bash
+open -a Simulator
+```
+ou directement en le cherchant dans les applications. Il faudra alors creer un device si ce n'est pas déjà fait.
+
+Maintenant il faut ce rendre une fois le depot cloné, dans le `dir` ``my_app`` puis en ligne de commande :
 
 ```bash
 flutter run
 ```
+
 > Il est plus simple d'executer un via un IDE permettant de relier un device plus facilement  
+
+Une fois l'app dépployée, creer un compte afin d'avoir accès à l'app.
+
+> Un fichier test est pésent il permet de tester la connection de la BDD.
 ## TODO
 
-- [ ]  BDD
+- [x]  BDD
     - [x]  Crée la base de données
     - [x]  dockeriser la base de données
     - [x]  remplir la base de données
@@ -97,7 +105,7 @@ flutter run
     - [x]  changer naviger entre les pages
     - [x]  gerer l’audioPlayer qui lance et arrete la musique
     - [x]  implementer le slider qui gere la position de la musique
-    - [ ]  faire des test 
+    - [x]  faire des test 
     - [ ]  Conteneriser via docker
 - [ ]  Optionnel
     - [ ]  gerer les appBar

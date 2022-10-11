@@ -21,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> signInWithEmailAndPassword() async {
     try {
-      await Auth().signInWithEmailAndPassword(
+      await Auth(auth: FirebaseAuth.instance).signInWithEmailAndPassword(
         mail: _controllerEmail.text,
         mdp: _controllerPassword.text,
       );
@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> createUserWithEmailAndPassword() async {
     try {
-      await Auth().createUserWithEmailAndPassword(
+      await Auth(auth : FirebaseAuth.instance).createUserWithEmailAndPassword(
         mail: _controllerEmail.text,
         mdp: _controllerPassword.text,
       );
