@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/ServiceData.dart';
 import 'package:my_app/register.dart';
+import 'package:my_app/storage.dart';
 import 'package:my_app/utils.dart';
 import 'auth.dart';
 import 'data_struct.dart';
@@ -38,7 +39,6 @@ class HomePageMutable extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return HomePage();
-    //return HomeFireBase();
   }
 }
 
@@ -46,6 +46,7 @@ class HomePage extends State<HomePageMutable> {
   final Stream<QuerySnapshot> _musicStream = FirebaseFirestore.instance
       .collection("music_bank")
       .snapshots(includeMetadataChanges: true);
+  final Stockage stockage = Stockage();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,13 +56,13 @@ class HomePage extends State<HomePageMutable> {
           stream: _musicStream,
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {
-              //List<MyData>? datas = snapshot.data
               var datas = snapshot.data;
               return ListView.builder(
                 itemCount: datas!.docs.length, //datas.length,
                 itemBuilder: (context, index) {
                   final data = datas.docs[index];
-                  return Container(child: ItemDesigned(mydata: data));
+                  return Container(
+                      child: ItemDesigned(mydata: data, storage: stockage));
                 },
               );
             } else if (snapshot.connectionState == ConnectionState.waiting) {
@@ -81,48 +82,62 @@ class HomePage extends State<HomePageMutable> {
   }
 }
 
-class ItemDesigned extends StatelessWidget {
-  const ItemDesigned({Key? key, required this.mydata}) : super(key: key);
+class ItemDesigned extends StatefulWidget {
+  const ItemDesigned({Key? key, required this.mydata, required this.storage})
+      : super(key: key);
   final QueryDocumentSnapshot mydata;
-  //final MyData mydata;
+  final Stockage storage;
+  @override
+  State<StatefulWidget> createState() => musicList();
+}
 
+class musicList extends State<ItemDesigned> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => PlayerGestion(mydata: mydata),
-              fullscreenDialog: true),
-        ),
-      },
-      child: Card(
-          child: Container(
-              padding: const EdgeInsets.fromLTRB(40, 8, 20, 20),
-              child: Row(
-                children: [
-                  Image.asset(mydata['cover'],
-                      width: 60, height: 60, fit: BoxFit.cover),
-                  Container(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          mydata['titre'],
-                          style: GoogleFonts.actor(
-                              // color:
-                              //     mydata['etat'] ? Colors.deepPurple : Colors.black,
-                              fontSize: 20),
-                        ),
-                        Text(mydata['artiste'],
-                            style: GoogleFonts.abel(fontSize: 14)),
-                      ],
+    return FutureBuilder(
+      future: widget.storage.getItemFromCloud(widget.mydata['cover']),
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        if (snapshot.hasData) {
+          return GestureDetector(
+              onTap: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              PlayerGestion(mydata: widget.mydata, snapshotFromDesier: snapshot),
+                          fullscreenDialog: true),
                     ),
-                  ),
-                ],
-              ))),
+                  },
+              child: Card(
+                  child: Container(
+                      padding: const EdgeInsets.fromLTRB(40, 8, 20, 20),
+                      child: Row(
+                        children: [
+                          Image.network(snapshot.data!,
+                              width: 60, height: 60, fit: BoxFit.cover),
+                          Container(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.mydata['titre'],
+                                  style: GoogleFonts.actor(fontSize: 20),
+                                ),
+                                Text(widget.mydata['artiste'],
+                                    style: GoogleFonts.abel(fontSize: 14)),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ))));
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          print(snapshot.error.toString());
+          return Text("on est dans le pb " + snapshot.error.toString());
+        }
+      },
     );
   }
 }

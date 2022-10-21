@@ -2,16 +2,21 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/storage.dart';
 import 'data_struct.dart';
 
 class PlayerGestion extends StatefulWidget {
-  const PlayerGestion({Key? key, required this.mydata}) : super(key: key);
+  const PlayerGestion(
+      {Key? key, required this.mydata, required this.snapshotFromDesier})
+      : super(key: key);
   final QueryDocumentSnapshot mydata;
+  final AsyncSnapshot<String> snapshotFromDesier;
   @override
   State<StatefulWidget> createState() => PlayerPage();
 }
 
 class PlayerPage extends State<PlayerGestion> {
+  Stockage storage = Stockage();
   Duration _duration = Duration.zero;
   Duration _position = Duration.zero;
   AudioPlayer? advancedPlayer;
@@ -34,9 +39,10 @@ class PlayerPage extends State<PlayerGestion> {
   }
 
   Future setAudio() async {
-    audioCache = AudioCache(prefix: '');
-    final url = await audioCache?.load(widget.mydata['chemin_music']);
-    advancedPlayer?.setUrl(url!.path, isLocal: true);
+    //audioCache = AudioCache(prefix: '');
+    var url = await storage.getItemFromCloud(widget.mydata['chemin_music']);
+    //final url = await audioCache?.load(widget.mydata['chemin_music']);
+    advancedPlayer?.setUrl(url, isLocal: false);
   }
 
   @override
@@ -66,6 +72,7 @@ class PlayerPage extends State<PlayerGestion> {
 
   @override
   Widget build(BuildContext context) {
+
     Widget image = Stack(children: [
       Container(
         height: 320,
@@ -99,7 +106,7 @@ class PlayerPage extends State<PlayerGestion> {
                 width: 250,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(widget.mydata['cover']),
+                    image: NetworkImage(widget.snapshotFromDesier.data!),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: const BorderRadius.only(
@@ -239,11 +246,8 @@ class PlayerPage extends State<PlayerGestion> {
               Container(child: Column(children: [image, infSon]))
             ])));
   }
-
-  // String formatTime(Duration position) {
-  //   String
-  // }
 }
+
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => new Size.fromHeight(60);
